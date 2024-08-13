@@ -12,6 +12,6 @@ ENV LC_ALL ja_JP.UTF-8
 RUN pip install fastapi "uvicorn[standard]"
 
 WORKDIR /code
-COPY ./app /code/app
+COPY ./backend/app /code/app
 
 ENTRYPOINT [ "uvicorn" ,"app.main:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]

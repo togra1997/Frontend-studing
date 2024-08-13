@@ -3,7 +3,7 @@
     let todo_list = [];
 
     function addTodo(todo) {
-        fetch("http://127.0.0.1:8000/todo", {
+        fetch("http://127.0.0.1:8000/todo/", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -23,7 +23,6 @@
             })
             .catch(() => {
                 //スキップされる
-                console.error('通信に失敗しました', error);
             })
             .finally(() => {
                 text = "";

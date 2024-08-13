@@ -17,7 +17,8 @@ WORKDIR /app/frontend
 RUN npm install
 # https://fitech101.aalto.fi/web-software-development/24-introduction-to-svelte/6-svelte-in-a-container/
 # viteは設定を変えないとDockerで動かない
-COPY ./vite.config.js /app/frontend/
+COPY ./frontend/vite.config.js /app/frontend/
+COPY ./frontend/App.svelte /app/frontend/src/
 
 EXPOSE 5173
 

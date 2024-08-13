@@ -5,7 +5,18 @@ services:
     build:
       context: .
       dockerfile: ./frontend/Dockerfile
+    hostname: frontend ← host名を指定する
+    volumes:
+      - ./frontend/aplication:/app/frontend
 
     ports:
       - "5173:5173"
-    command: npm run dev
+
+  backend:
+    build: 
+      context: .
+      dockerfile: ./backend/Dockerfile
+    volumes:
+      - ./backend/app:/code/app
+    ports:
+      - "8000:8000"
