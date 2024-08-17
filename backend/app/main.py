@@ -31,7 +31,7 @@ def hello_world() -> dict[str, str]:
     return {"message": "Hello World"}
 
 @app.post("/todo")
-def test(todo:Todo):
+def test():
     return {"message": "Hello Python"}
 
 @app.post('/account')

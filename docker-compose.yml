@@ -6,8 +6,6 @@ services:
       context: .
       dockerfile: ./frontend/Dockerfile
     hostname: frontend ← host名を指定する
-    volumes:
-      - ./frontend/aplication:/app/frontend
 
     ports:
       - "5173:5173"
