@@ -1,19 +1,23 @@
 version: '3'
+name: docker-studing
 
 services:
   frontend:
     build:
       context: .
       dockerfile: ./frontend/Dockerfile
-    hostname: frontend ← host名を指定する
+    hostname: frontend
+    restart: always
 
     ports:
       - "5173:5173"
 
   backend:
-    build: 
+    build:
       context: .
       dockerfile: ./backend/Dockerfile
+    restart: always
+    hostname: backend
     volumes:
       - ./backend/app:/code/app
     ports:

@@ -23,7 +23,6 @@
             })
             .catch(() => {
                 //スキップされる
-                console.error('通信に失敗しました', error);
             })
             .finally(() => {
                 text = "";

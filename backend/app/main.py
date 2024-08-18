@@ -1,45 +1,61 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, Request, status
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel, Field, field_validator
+
+task_count = 0
+
+
+class Task(BaseModel):
+    task: str
+    id: int = Field(None, validate_default=True)
+
+    @field_validator("id", mode="before")
+    def set_id_based_on_count(cls: "Task", v: int) -> int:
+        global task_count
+        task_count += 1
+        return task_count
+
 
 app = FastAPI()
 
 origins = [
-    "http://localhost",
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
-
+    "http://127.0.0.1:5173",
+    "http://localhost:5173",
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],
 )
 
-class Account(BaseModel):
-    name: str
-    initial_deposit: float
+todo_list: list[Task] = []
 
-class Todo(BaseModel):
-    task:str
 
-@app.get("/hello")
-def hello_world() -> dict[str, str]:
-    return {"message": "Hello World"}
+@app.get("/todo")
+async def todo() -> list[Task]:
+    print("test")
+    print(todo_list)
+    return todo_list
+
 
 @app.post("/todo")
-def test():
-    return {"message": "Hello Python"}
+async def add(req: Task) -> Task:
+    print(f"{req}")
+    todo_list.append(req)
+    return req
 
-@app.post('/account')
-def create_account(account: Account):
-    # ...ここで銀行口座を作成する処理をする...
-    return {"account_number": "1234567890"}
 
-# @app.get("/")
-# def hello_world() -> dict[str, str]:
-#     print("hello")
-#     return {"message": "Hello World"}
+@app.delete("/todo/{task_id}")
+async def delete(task_id: int) -> None:
+    for task in todo_list:
+        if task.id == task_id:
+            todo_list.remove(task)
+
+
+@app.exception_handler(RequestValidationError)
+async def handler(request: Request, exc: RequestValidationError):
+    print(exc)
+    return JSONResponse(content={}, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY)
