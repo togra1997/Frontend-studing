@@ -3,7 +3,7 @@
     let todo_list = [];
 
     function addTodo(todo) {
-        fetch("http://backend:8000/todo", {
+        fetch("http://127.0.0.1:8000/todo", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -11,7 +11,7 @@
             }),
         })
             .then(() => {
-                fetch("http://backend:8000/todo")
+                fetch("http://127.0.0.1:8000/todo")
                     .then(function (response) {
                         console.log(response);
                         return response.json();
@@ -30,10 +30,10 @@
             });
     }
     function deleteTodo(id) {
-        fetch("http://backend:8000/todo/" + id, {
+        fetch("http://127.0.0.1:8000/todo/" + id, {
             method: "DELETE",
         }).then(() => {
-            fetch("http://backend:8000/todo")
+            fetch("http://127.0.0.1:8000/todo")
                 .then(function (response) {
                     console.log(response);
                     return response.json();
