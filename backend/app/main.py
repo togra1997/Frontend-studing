@@ -29,6 +29,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_methods=["*"],
+    allow_credentials=True,   # 追記により追加
+    allow_headers=["*"]       # 追記により追加
 )
 
 todo_list: list[Task] = []
